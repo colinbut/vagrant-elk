@@ -18,17 +18,7 @@ chown -R root: jre1.8*
 rm jre-8*.tar.gz
 alternatives --install /usr/bin/java java /opt/jre1.8*/bin/java 1
 
-echo "Installing ElasticSearch"
-cat >> /etc/yum.repos.d/elasticsearch.repo << REPO
-[elasticsearch-1.4]
-name=Elasticsearch repository for 1.4.x packages
-baseurl=http://packages.elasticsearch.org/elasticsearch/1.4/centos
-gpgcheck=1
-gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
-enabled=1
-REPO
+echo "Downloading & Installing ElasticSearch"
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.5.0.noarch.rpm
+rpm -Uvh elasticsearch-1.5.0.noarch.rpm
 
-yum install -y elasticsearch
-sed -i 's/#network.host: 192.168.0.1/network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml
-systemctl start elasticsearch.service
-systemctl enable elasticsearch.service
